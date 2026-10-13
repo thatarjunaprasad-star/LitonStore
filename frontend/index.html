@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="bn" dir="ltr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Liton Tea Store - Daily Price Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header class="hero">
+        <h1>লিটন চা স্টোর</h1>
+        <p>আপনার দৈনিক কেনাকাটার দামের সুমারি ও সুপারিশ</p>
+    </header>
+    <main class="container">
+        <section class="query-section">
+            <h2>প্রশ্ন করুন</h2>
+            <textarea id="question" rows="3" placeholder="যেমন: আজকের চায়ের দাম কত?" class="bn-input"></textarea>
+            <button id="askBtn" class="bn-button">প্রশ্ন করুন</button>
+            <div id="answer" class="answer-box"></div>
+        </section>
+        <section class="suggestions">
+            <h2>সিনসাময়িক সুপারিশ</h2>
+            <ul id="suggestList"></ul>
+        </section>
+    </main>
+    <footer>
+        <p>Made by Twoptjabs | © 2026 লিটন চা স্টোর, ঝাউতলা, কুমিল্লা</p>
+    </footer>
+    <script>
+        const apiBase = "http://127.0.0.1:8000"; // FastAPI server
+        document.getElementById('askBtn').addEventListener('click', async () => {
+            const q = document.getElementById('question').value.trim();
+            if (!q) return;
+            const resp = await fetch(`${apiBase}/query`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: q })
+            });
+            const data = await resp.json();
+            document.getElementById('answer').innerText = data.answer;
+        });
+        // Load daily suggestions on page load (static placeholder for demo)
+        const suggestions = [
+            "দুধের চা (৪০ টাকা)",
+            "ল্যাবন গরম চা (২৫ টাকা)",
+            "সাদার দই (২০ টাকা)",
+            "নাস্তার পিঠা (৩৫ টাকা)"
+        ];
+        const listEl = document.getElementById('suggestList');
+        suggestions.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            listEl.appendChild(li);
+        });
+    </script>
+</body>
+</html>

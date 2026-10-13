@@ -1,0 +1,11 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.5
+requests==2.32.3
+beautifulsoup4==4.12.3
+langchain==0.3.0
+chromadb==0.5.5
+pydantic==2.9.2
+python-dotenv==1.0.1
+openai==1.52.0
+# Optional: if you prefer a local embedding model, you can add sentence-transformers
+# sentence-transformers==3.2.0
